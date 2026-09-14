@@ -1,0 +1,32 @@
+# IDE and local settings
+.vs/
+.vscode/
+*.suo
+*.user
+
+# Build output
+build/
+build-*/
+out/
+x64/
+Debug/
+Release/
+CMakeFiles/
+CMakeCache.txt
+cmake_install.cmake
+*.obj
+*.pch
+*.ilk
+*.exp
+*.lib
+*.dll
+*.pdb
+
+# Packages and diagnostics
+dist/
+package-staging/
+*.zip
+*.7z
+*.log
+*.dmp
+*.tmp

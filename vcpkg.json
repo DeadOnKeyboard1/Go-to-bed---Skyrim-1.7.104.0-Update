@@ -1,0 +1,10 @@
+{
+	"name": "gotobed",
+	"version-string": "2.1.0.0",
+	"license": "MIT",
+	"dependencies": [
+		"commonlibsse",
+		"detours",
+		"nlohmann-json"
+	]
+}
