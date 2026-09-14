@@ -54,9 +54,10 @@ changing its game files:
 
 ## License
 
-Go to bed and this compatibility update are licensed under the
-[MIT License](LICENSE). Copyright (c) 2022 andrelo1. Skyrim `1.7.104.0`
-compatibility update copyright (c) 2026 DeadOnKeyboard.
+This compatibility update is distributed under
+[GPL-3.0-or-later](LICENSE). The original Go to bed source and copyright
+notice remain available under their original MIT terms in
+[`licenses/GoToBed-MIT.txt`](licenses/GoToBed-MIT.txt).
 
 Bundled and linked third-party components retain their own licenses. See
 [THIRD_PARTY_NOTICES.md](THIRD_PARTY_NOTICES.md) and the [licenses](licenses)

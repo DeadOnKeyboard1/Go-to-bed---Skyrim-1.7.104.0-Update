@@ -1,5 +1,5 @@
 # Copyright (c) 2026 DeadOnKeyboard
-# SPDX-License-Identifier: MIT
+# SPDX-License-Identifier: GPL-3.0-or-later
 
 [CmdletBinding()]
 param(
@@ -14,7 +14,7 @@ $temporaryArchive = "$resolvedArchive.codex.tmp"
 $docsPrefix = 'Docs/Go to bed'
 
 $documents = [ordered]@{
-    'LICENSE-Go-to-bed-MIT.txt' = (Join-Path $projectRoot 'LICENSE')
+    'LICENSE-GPL-3.0-or-later.txt' = (Join-Path $projectRoot 'LICENSE')
     'NOTICE.txt' = (Join-Path $projectRoot 'NOTICE.md')
     'THIRD_PARTY_NOTICES.txt' = (Join-Path $projectRoot 'THIRD_PARTY_NOTICES.md')
 }
@@ -37,6 +37,13 @@ try {
         $temporaryArchive,
         [System.IO.Compression.ZipArchiveMode]::Update)
     try {
+        foreach ($entry in @($archive.Entries)) {
+            if ($entry.FullName.Replace('\', '/').StartsWith(
+                    "$docsPrefix/", [System.StringComparison]::OrdinalIgnoreCase)) {
+                $entry.Delete()
+            }
+        }
+
         foreach ($item in $documents.GetEnumerator()) {
             $entryName = "$docsPrefix/$($item.Key)"
             $existing = $archive.GetEntry($entryName)

@@ -6,6 +6,8 @@ the `licenses` directory.
 
 | Component | Version or revision | License | License file |
 | --- | --- | --- | --- |
+| Go to bed compatibility update | 2.1.0 / Skyrim 1.7.104.0 | GPL-3.0-or-later | `LICENSE` |
+| Original Go to bed source | 2.1.0 | MIT | `licenses/GoToBed-MIT.txt` |
 | CommonLibSSE | `0e9d380b90950eb3ece1e5b95e3b6a379ee03f8e` | MIT | `licenses/CommonLibSSE-MIT.txt` |
 | Microsoft Detours | 4.0.1 / `734ac64899c44933151c1335f6ef54a590219221` | MIT | `licenses/Microsoft-Detours-MIT.txt` |
 | nlohmann/json | 3.12.0 | MIT | `licenses/nlohmann-json-MIT.txt` |
