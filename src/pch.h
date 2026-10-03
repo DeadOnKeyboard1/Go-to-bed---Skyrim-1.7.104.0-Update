@@ -1,16 +1,71 @@
 #pragma once
 
-#ifdef ENABLE_SKYRIM_VR
-#undef ENABLE_SKYRIM_VR
-#endif
+#define NOMINMAX
+#define NOGDI
+#define WIN32_LEAN_AND_MEAN
 
 #include "RE/Skyrim.h"
 #include "SKSE/SKSE.h"
 
-#define NOMINMAX
-#define NOGDI
 #include <windows.h>
+#undef GetObject
 #include "detours/detours.h"
 
 #include "nlohmann/json.hpp"
 using json = nlohmann::json;
+
+namespace stl
+{
+	template<class To, class From>
+	To unrestricted_cast(const From& a_src) {
+		return reinterpret_cast<const To&>(a_src);
+	}
+
+	template<class F, class... Args>
+	auto invoke_non_member(F a_func, Args... a_args) {
+		using result_t = std::invoke_result_t<F, Args...>;
+		using func_t = result_t(*)(Args...);
+		auto func = unrestricted_cast<func_t>(a_func);
+		return func(a_args...);
+	}
+	
+	template<class T>
+	std::uintptr_t write_detour(std::uintptr_t a_src, T a_dst) {
+		DetourTransactionBegin();
+		DetourUpdateThread(GetCurrentThread());
+		DetourAttach(reinterpret_cast<PVOID*>(&a_src), reinterpret_cast<PVOID&>(a_dst));
+
+		if (DetourTransactionCommit() != NO_ERROR) {
+			spdlog::error("failed to attach detour");
+		}
+
+		return a_src;
+	}
+
+	template <class T>
+	std::uintptr_t write_call(std::uintptr_t a_src, T a_dst) {
+		auto& trampoline = SKSE::GetTrampoline();
+		SKSE::AllocTrampoline(14);
+		return trampoline.write_call<5>(a_src, unrestricted_cast<std::uintptr_t>(a_dst));
+	}
+
+	template<class F>
+	struct HookData
+	{		
+		void write_detour(std::uintptr_t a_src) {
+			orig = unrestricted_cast<F>(stl::write_detour(a_src, hook));
+		}
+
+		void write_thunk(std::uintptr_t a_src) {
+			orig = unrestricted_cast<F>(stl::write_call(a_src, hook));
+		}
+
+		template<class... Args>
+		auto call_orig(Args... a_args) {
+			return invoke_non_member(orig, a_args...);
+		}
+
+		F	hook{nullptr};
+		F	orig{nullptr};
+	};
+}

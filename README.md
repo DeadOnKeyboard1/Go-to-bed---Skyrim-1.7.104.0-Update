@@ -38,7 +38,7 @@ Open an x64 Native Tools command prompt and run:
 
 ```powershell
 cmake -B build -S . `
-  -DCMAKE_TOOLCHAIN_FILE=C:/path/to/vcpkg/scripts/buildsystems/vcpkg.cmake `
+  -DCMAKE_TOOLCHAIN_FILE="$env:VCPKG_ROOT/scripts/buildsystems/vcpkg.cmake" `
   -DVCPKG_TARGET_TRIPLET=x64-windows-static-md `
   -DVCPKG_OVERLAY_PORTS=vcpkg/ports
 cmake --build build --config Release
@@ -49,7 +49,7 @@ repository. To add all required notices to an existing Vortex archive without
 changing its game files:
 
 ```powershell
-.\tools\Add-LicensesToPackage.ps1 -ArchivePath C:\path\to\gotobed.zip
+.\tools\Add-LicensesToPackage.ps1 -ArchivePath <path-to-archive>
 ```
 
 ## License
